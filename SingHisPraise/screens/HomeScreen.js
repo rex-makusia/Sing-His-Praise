@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, TextInput } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -11,18 +11,29 @@ const hymns = [
 
 export default function HomeScreen({ navigation }) {
     const [searchQuery, setSearchQuery] = useState('');
-    const [filteredHymns, setFilteredHymns] = useState(hymns);
+    const [filteredHymns, setFilteredHymns] = useState([]);
 
-    // Function to filter hymns
+    // Function to sort hymns alphabetically
+    const sortHymnsAlphabetically = (hymnList) => {
+        return [...hymnList].sort((a, b) => a.title.localeCompare(b.title));
+    };
+
+    useEffect(() => {
+        // Sort the hymns alphabetically on component mount
+        const sortedHymns = sortHymnsAlphabetically(hymns);
+        setFilteredHymns(sortedHymns);
+    }, []);
+
+    // Function to filter hymns based on search query
     const handleSearch = (query) => {
         setSearchQuery(query);
         if (query.trim() === '') {
-            setFilteredHymns(hymns);
+            setFilteredHymns(sortHymnsAlphabetically(hymns));
         } else {
             const filtered = hymns.filter((hymn) =>
                 hymn.title.toLowerCase().includes(query.toLowerCase())
             );
-            setFilteredHymns(filtered);
+            setFilteredHymns(sortHymnsAlphabetically(filtered));
         }
     };
 
