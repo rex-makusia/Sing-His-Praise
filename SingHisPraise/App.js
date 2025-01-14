@@ -1,18 +1,20 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from './screens/HomeScreen';
-import HymnViewer from './screens/HymnViewer';
-
-const Stack = createStackNavigator();
+import React, { useEffect } from 'react';
+import { View, Text } from 'react-native';
+import { initializeDatabase, insertHymn } from './src/database/db';
 
 export default function App() {
+  useEffect(() => {
+    // Initialize the database
+    initializeDatabase();
+
+    // Optional: Prepopulate hymns
+    insertHymn('Amazing Grace', 'Amazing Grace, how sweet the sound...');
+    insertHymn('How Great Thou Art', 'O Lord my God, when I in awesome wonder...');
+  }, []);
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="HymnViewer" component={HymnViewer} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View className="flex-1 justify-center items-center">
+      <Text className="text-xl">Welcome to Sing His Praise</Text>
+    </View>
   );
 }
