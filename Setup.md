@@ -24,7 +24,7 @@ Find and install Expo Go on Google PlayStore.
 ## 5. Run with Expo Client with QR Code
  ```
  $ cd SingHisPraise
- $ npm run
+ $ npx expo start
 ```
 
 
